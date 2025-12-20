@@ -74,7 +74,7 @@ export default function FeaturedProducts() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              Today's best picks
+              Today&apos;s best picks
             </motion.h2>
             <motion.p
               className="text-gray-500 mt-2"

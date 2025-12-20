@@ -23,7 +23,7 @@ export default function FinalCTA() {
               Start saving today
             </h2>
             <p className="text-white/80 text-lg mb-8 max-w-md mx-auto">
-              Join 2M+ shoppers who trust CheaperBox for verified deals
+              Join 2M+ shoppers who trust Cheaperbox for verified deals
             </p>
             
             <button className="group inline-flex items-center gap-2 px-8 py-4 bg-white text-gray-900 font-medium rounded-full hover:bg-gray-100 transition-colors cursor-pointer">

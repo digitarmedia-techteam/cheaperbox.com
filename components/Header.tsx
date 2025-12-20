@@ -16,17 +16,14 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white/80 backdrop-blur-lg border-b border-gray-100' : 'bg-transparent'
+        scrolled || mobileOpen ? 'bg-white/95 backdrop-blur-lg border-b border-gray-100' : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 cursor-pointer">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-blue-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">C</span>
-            </div>
-            <span className="font-semibold text-gray-900">CheaperBox</span>
+          <a href="/" className="flex items-center gap-2 cursor-pointer">
+            <span className="text-lg font-semibold text-gray-900 tracking-tight">Cheaperbox</span>
           </a>
 
           {/* Desktop Nav */}
@@ -60,8 +57,8 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100">
-            <nav className="flex flex-col gap-4">
+          <div className="md:hidden py-4 border-t border-gray-100 bg-white/95 backdrop-blur-sm">
+            <nav className="flex flex-col gap-4 p-4">
               {['Deals', 'Categories', 'How it works', 'About'].map((item) => (
                 <a
                   key={item}
@@ -71,9 +68,14 @@ export default function Header() {
                   {item}
                 </a>
               ))}
-              <button className="mt-2 px-5 py-3 bg-gray-900 text-white font-medium rounded-full cursor-pointer">
-                Shop Now
-              </button>
+              <a
+                href="https://www.aliexpress.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center justify-center px-5 py-3 bg-gray-900 text-white font-medium rounded-full cursor-pointer"
+              >
+                Shop on AliExpress
+              </a>
             </nav>
           </div>
         )}

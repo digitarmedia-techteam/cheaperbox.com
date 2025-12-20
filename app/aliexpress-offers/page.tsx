@@ -1,11 +1,22 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Star, Zap, ShieldCheck, Truck, ArrowRight, Copy, Snowflake } from 'lucide-react';
+import { Star, Zap, ShieldCheck, Truck, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 // Christmas elements configuration
 const christmasElements = ['🎁', '⭐', '🎄', '🔔', '🎅', '⛄', '🦌', '🍬', '🧦', '🎀'];
+
+interface ChristmasItem {
+  id: number;
+  left: number;
+  animationDuration: number;
+  animationDelay: number;
+  fontSize: number;
+  opacity: number;
+  element: string;
+  rotation: number;
+}
 
 const generateChristmasElements = (count: number) => {
   return Array.from({ length: count }, (_, i) => ({
@@ -174,14 +185,14 @@ const trustFeatures = [
 ];
 
 export default function AliExpressOffers() {
-  const [christmasItems, setChristmasItems] = useState<any[]>([]);
+  const [christmasItems, setChristmasItems] = useState<ChristmasItem[]>([]);
 
   useEffect(() => {
     setChristmasItems(generateChristmasElements(40));
   }, []);
 
   return (
-    <main className="relative min-h-screen bg-gradient-to-b from-red-50 via-green-50 to-blue-50 overflow-hidden" style={{ fontFamily: '"Outfit", sans-serif' }}>
+    <main className="relative min-h-screen bg-gradient-to-b from-red-50 via-green-50 to-blue-50 overflow-hidden">
       {/* Christmas Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
@@ -273,7 +284,7 @@ export default function AliExpressOffers() {
               New Users: Enjoy <span className="font-bold text-red-600">Free Delivery</span> 🎅
             </p>
             <p className="text-xs sm:text-sm text-gray-700">
-              Limited Holiday Coupons • Perfect Gift Prices • Hurry Before Santa's Gone!
+              Limited Holiday Coupons • Perfect Gift Prices • Hurry Before Santa&apos;s Gone!
             </p>
           </div>
         </motion.div>
@@ -281,8 +292,6 @@ export default function AliExpressOffers() {
         {/* Deals Grid */}
         <div className="grid gap-4 sm:gap-6 mb-12 sm:mb-16">
           {deals.map((deal, index) => {
-            const discount = Math.round(((deal.originalPrice - deal.discountedPrice) / deal.originalPrice) * 100);
-
             return (
               <motion.div
                 key={deal.id}
@@ -487,14 +496,16 @@ export default function AliExpressOffers() {
             Browse all holiday deals above and start gift shopping. New users get extra Christmas discounts!
           </p>
           <a
-            href="#top"
+            href="https://www.aliexpress.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 bg-white text-red-600 font-semibold rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-200 ease-out cursor-pointer relative overflow-hidden"
             style={{
               border: '4px solid',
               borderImage: 'repeating-linear-gradient(45deg, #dc2626, #dc2626 10px, #ffffff 10px, #ffffff 20px) 1'
             }}
           >
-            🎁 Shop All Christmas Deals
+            🎁 Shop All Christmas Deals on AliExpress
             <ArrowRight className="w-4 h-4" />
           </a>
         </motion.div>

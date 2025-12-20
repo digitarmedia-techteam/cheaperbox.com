@@ -5,10 +5,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-blue-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">C</span>
-            </div>
-            <span className="font-semibold text-gray-900">CheaperBox</span>
+            <span className="text-lg font-semibold text-gray-900 tracking-tight">Cheaperbox</span>
           </div>
 
           {/* Links */}
@@ -32,8 +29,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t border-gray-200 text-center">
-          <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} CheaperBox. Affiliate disclosure: We earn from qualifying purchases.
+            <p className="text-sm text-gray-500">
+            © {new Date().getFullYear()} Cheaperbox. Affiliate disclosure: We earn from qualifying purchases.
           </p>
         </div>
       </div>
