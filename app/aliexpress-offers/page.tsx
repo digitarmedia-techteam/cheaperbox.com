@@ -252,18 +252,11 @@ export default function AliExpressOffers() {
         transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
       >
         <div className="max-w-3xl mx-auto">
-          <div className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 bg-red-500/10 backdrop-blur-sm rounded-full text-xs sm:text-sm font-medium text-red-700 mb-3 sm:mb-4 border border-red-300">
-            🎄 Christmas Special Offers
+          <div className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 bg-red-500/10 backdrop-blur-sm rounded-full text-xs sm:text-sm font-medium text-red-700 -mb-4 sm:mb-4 border border-red-300">
+           Christmas Special Offers
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight mb-3 sm:mb-4 drop-shadow-sm">
-            Holiday AliExpress Deals 
-          </h1>
-
-          <p className="text-sm sm:text-lg lg:text-xl text-gray-700 mb-6 sm:mb-8 max-w-xl mx-auto">
-            Amazing Christmas savings on gifts & decorations!<br />
-            <span className="text-xs sm:text-sm text-gray-600">Limited holiday offers • Perfect for gift giving • Free shipping available</span>
-          </p>
+         
         </div>
       </motion.header>
 
@@ -279,7 +272,7 @@ export default function AliExpressOffers() {
           
           <div className="relative z-10">
            
-            <h2 className="text-lg sm:text-2xl font-bold text-red-700 mb-1 sm:mb-2">🎄 Christmas Special Savings! 🎄</h2>
+            <h2 className="text-lg sm:text-2xl font-bold text-red-700 mb-1 sm:mb-2">🎄 Holiday AliExpress Deals 🎄</h2>
             <p className="text-base sm:text-lg text-green-700 mb-1">
               New Users: Enjoy <span className="font-bold text-red-600">Free Delivery</span> 🎅
             </p>
@@ -309,98 +302,84 @@ export default function AliExpressOffers() {
                 <div className="hidden sm:block absolute top-0 left-0 text-2xl z-10">🎄</div>
                 <div className="hidden sm:block absolute top-0 right-0 text-2xl z-10">🎄</div>
                 
-                <div className="p-4 sm:p-6">
-                  <div className="flex flex-col md:flex-row gap-4 items-start">
-                    {/* Left - Product Image */}
-                    <div className="flex-shrink-0 mx-auto md:mx-0">
-                      <div className="w-32 h-32 md:w-40 md:h-40 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden border-2 border-red-100 group-hover:scale-105 transition-transform duration-200 ease-out">
+                <div className="p-5 sm:p-6">
+                  <div className="flex flex-col md:flex-row gap-5 sm:gap-6">
+                    {/* Left - Product Image with discount badge */}
+                    <div className="flex-shrink-0 relative">
+                      <div className="w-full md:w-44 lg:w-52 aspect-square bg-gray-50 rounded-xl overflow-hidden border border-gray-200 group-hover:border-red-200 transition-all duration-300">
                         <img
                           src={deal.image}
                           alt={deal.title}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           loading="lazy"
                           onError={(e) => {
                             (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="160" height="160"%3E%3Crect fill="%23f3f4f6" width="160" height="160"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="14"%3EProduct%3C/text%3E%3C/svg%3E';
                           }}
                         />
                       </div>
+                      {/* Discount Badge - positioned on image */}
+                      <div className="absolute -top-2 -right-2 px-3 py-1.5 bg-gradient-to-br from-red-500 to-red-600 text-white text-sm font-bold rounded-full shadow-lg border-2 border-white">
+                        -{deal.discount}%
+                      </div>
                     </div>
 
-                    {/* Right - Content */}
-                    <div className="flex-1 flex flex-col justify-between text-center md:text-left">
-                      <div>
-                        {/* Christmas Discount Badge */}
-                        <div className="inline-block px-3 py-1 sm:px-4 sm:py-2 bg-red-500/20 text-red-700 text-xs sm:text-sm font-bold rounded-full mb-2 sm:mb-3 border border-red-300">
-                          🎁 {deal.discount}% OFF
-                        </div>
-
-                        <h3 className="text-base sm:text-xl font-bold text-gray-900 mb-1 sm:mb-2">
+                    {/* Right - Content with better hierarchy */}
+                    <div className="flex-1 flex flex-col min-w-0">
+                      {/* Top section: Title, description, rating */}
+                      <div className="flex-1">
+                        <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 leading-tight group-hover:text-red-600 transition-colors">
                           {deal.title}
                         </h3>
 
-                        <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 leading-relaxed">
+                        <p className="text-sm sm:text-base text-gray-600 mb-3 leading-relaxed line-clamp-2">
                           {deal.description}
                         </p>
 
-                        {/* Rating */}
-                        <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                          <div className="flex">
+                        {/* Rating - better spacing */}
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="flex gap-0.5">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                className={`w-3 h-3 sm:w-4 sm:h-4 ${i < Math.floor(deal.rating) ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}`}
+                                className={`w-4 h-4 ${i < Math.floor(deal.rating) ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}`}
                               />
                             ))}
                           </div>
-                          <span className="text-xs text-gray-600">
-                            {deal.rating} • {deal.reviews.toLocaleString()}
+                          <span className="text-sm font-medium text-gray-700">
+                            {deal.rating}
+                          </span>
+                          <span className="text-sm text-gray-400">
+                            ({deal.reviews.toLocaleString()} reviews)
                           </span>
                         </div>
                       </div>
 
-                      {/* Pricing & CTA */}
-                      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 pt-3 sm:pt-4 border-t border-gray-200">
-                        <motion.div 
-                          className="flex items-center gap-2 sm:gap-3 cursor-pointer group relative"
-                          whileHover={{ scale: 1.05 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <div className="relative">
-                            <div className="text-xs text-gray-500 mb-0.5 sm:mb-1 group-hover:text-red-600 transition-colors">Now</div>
-                            <span className="text-2xl sm:text-3xl font-bold text-red-600 group-hover:text-red-700 transition-colors">
-                              ${deal.discountedPrice.toFixed(2)}
-                            </span>
+                      {/* Bottom section: Pricing & CTA - always at bottom */}
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4 border-t border-gray-200">
+                        {/* Price section - mobile optimized */}
+                        <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
+                          <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-red-600">
+                            ${deal.discountedPrice.toFixed(2)}
                           </div>
-                          <div className="flex flex-col">
-                            <div className="text-xs text-gray-400 mb-0.5">Was</div>
-                            <span className="text-sm sm:text-lg text-gray-400 line-through group-hover:text-gray-600 transition-colors">
+                          <div className="flex flex-wrap gap-2 sm:gap-2 items-center">
+                            <span className="text-sm sm:text-base text-gray-400 line-through">
                               ${deal.originalPrice.toFixed(2)}
                             </span>
+                            <span className="inline-block px-2.5 py-1 bg-green-100 text-green-700 text-xs sm:text-sm font-semibold rounded-full">
+                              Save ${(deal.originalPrice - deal.discountedPrice).toFixed(2)}
+                            </span>
                           </div>
-                          
-                          {/* Savings Badge - appears on hover */}
-                          <motion.div 
-                            className="absolute -right-1 -top-8 bg-gradient-to-r from-green-400 to-green-500 text-white px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap shadow-lg hidden sm:block"
-                            initial={{ opacity: 0, y: 10 }}
-                            whileHover={{ opacity: 1, y: -5 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            Save ${(deal.originalPrice - deal.discountedPrice).toFixed(2)}
-                          </motion.div>
-                        </motion.div>
+                        </div>
 
+                        {/* CTA Button - prominent */}
                         <a
                           href={deal.promotionUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-2 px-4 sm:px-8 py-3 sm:py-4 bg-white text-red-600 font-semibold text-sm sm:text-base rounded-lg sm:rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-200 ease-out cursor-pointer group relative overflow-hidden w-full sm:w-auto"
-                          style={{
-                            border: '3px solid',
-                            borderImage: 'repeating-linear-gradient(45deg, #dc2626, #dc2626 8px, #ffffff 8px, #ffffff 16px) 1'
-                          }}
+                          className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold text-base rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 group/btn"
                         >
-                          🎁 <span className="hidden xs:inline">Get</span> Deal
-                          <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
+                          Get Deal Now
+                          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                         </a>
                       </div>
                     </div>
