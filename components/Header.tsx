@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -23,10 +24,12 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 -ml-4">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2 cursor-pointer">
-            <img 
+            <Image 
               src="https://panel.digitarmedia.com/admin/uploads/Untitled design (5)1766401787.png" 
               alt="Cheaperbox Logo" 
-              className="h-11 w-auto max-w-full" 
+              width={150} 
+              height={44} 
+              className="w-auto max-w-full" 
             />
           </a>
 
