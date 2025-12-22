@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function Footer() {
   return (
     <footer className="py-12 bg-gray-50 border-t border-gray-100">
@@ -5,7 +7,13 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <span className="text-lg font-semibold text-gray-900 tracking-tight">Cheaperbox</span>
+            <Image 
+              src="https://panel.digitarmedia.com/admin/uploads/Untitled design (5)1766401787.png" 
+              alt="Cheaperbox Logo" 
+              width={150} 
+              height={44} 
+              className="w-auto max-w-full" 
+            />
           </div>
 
           {/* Links */}
