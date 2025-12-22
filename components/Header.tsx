@@ -20,10 +20,14 @@ export default function Header() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 -ml-4">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2 cursor-pointer">
-            <span className="text-lg font-semibold text-gray-900 tracking-tight">Cheaperbox</span>
+            <img 
+              src="https://panel.digitarmedia.com/admin/uploads/Untitled design (5)1766401787.png" 
+              alt="Cheaperbox Logo" 
+              className="h-11 w-auto max-w-full" 
+            />
           </a>
 
           {/* Desktop Nav */}
