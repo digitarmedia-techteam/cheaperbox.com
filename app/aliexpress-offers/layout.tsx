@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import Header from '@/components/Header';
 import Footer from '@/components/sections/Footer';
 
@@ -21,16 +22,18 @@ export default function Layout({
   return (
     <>
       <head>
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16957880024"></script>
-        <script>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-16957880024"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics-aliexpress" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'AW-16957880024');
           `}
-        </script>
+        </Script>
       </head>
       <Header />
       {children}

@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Star, Zap, ShieldCheck, Truck, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
@@ -11,8 +12,9 @@ function gtag_report_conversion(url: string) {
       window.location.href = url;
     }
   };
-  if (typeof (window as any).gtag === 'function') {
-    (window as any).gtag('event', 'conversion', {
+  const windowObj = window as unknown as { gtag?: (command: string, event: string, config: Record<string, unknown>) => void };
+  if (typeof windowObj.gtag === 'function') {
+    windowObj.gtag('event', 'conversion', {
       'send_to': 'AW-16957880024/p1LHCNf3_rMaENjtkpY_',
       'event_callback': callback
     });
@@ -325,11 +327,12 @@ export default function AliExpressOffers() {
                     {/* Left - Product Image with discount badge */}
                     <div className="flex-shrink-0 relative">
                       <div className="w-full md:w-44 lg:w-52 aspect-square bg-gray-50 rounded-xl overflow-hidden border border-gray-200 group-hover:border-red-200 transition-all duration-300">
-                        <img
+                        <Image
                           src={deal.image}
                           alt={deal.title}
+                          width={208}
+                          height={208}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          loading="lazy"
                           onError={(e) => {
                             (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="160" height="160"%3E%3Crect fill="%23f3f4f6" width="160" height="160"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="14"%3EProduct%3C/text%3E%3C/svg%3E';
                           }}
