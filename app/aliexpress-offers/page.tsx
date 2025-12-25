@@ -206,8 +206,10 @@ const trustFeatures = [
 
 export default function AliExpressOffers() {
   const [christmasItems, setChristmasItems] = useState<ChristmasItem[]>([]);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     setChristmasItems(generateChristmasElements(40));
   }, []);
 
@@ -236,7 +238,7 @@ export default function AliExpressOffers() {
 
       {/* Enhanced Christmas Elements Overlay */}
       <div className="fixed inset-0 pointer-events-none z-50 opacity-70">
-        {christmasItems.map((item) => (
+        {isClient && christmasItems.map((item) => (
           <motion.div
             key={item.id}
             className="absolute"
