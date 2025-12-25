@@ -4,6 +4,24 @@ import { motion } from 'framer-motion';
 import { Star, Zap, ShieldCheck, Truck, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
+// Google Ads conversion tracking function
+function gtag_report_conversion(url: string) {
+  const callback = function () {
+    if (typeof url !== 'undefined') {
+      window.location.href = url;
+    }
+  };
+  if (typeof (window as any).gtag === 'function') {
+    (window as any).gtag('event', 'conversion', {
+      'send_to': 'AW-16957880024/p1LHCNf3_rMaENjtkpY_',
+      'event_callback': callback
+    });
+  } else {
+    callback();
+  }
+  return false;
+}
+
 // Christmas elements configuration
 const christmasElements = ['🎁', '⭐', '🎄', '🔔', '🎅', '⛄', '🦌', '🍬', '🧦', '🎀'];
 
@@ -372,15 +390,16 @@ export default function AliExpressOffers() {
                         </div>
 
                         {/* CTA Button - prominent */}
-                        <a
-                          href={deal.promotionUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold text-base rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 group/btn"
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            gtag_report_conversion(deal.promotionUrl);
+                          }}
+                          className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold text-base rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 group/btn cursor-pointer"
                         >
                           Get Deal Now
                           <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                        </a>
+                        </button>
                       </div>
                     </div>
                   </div>
