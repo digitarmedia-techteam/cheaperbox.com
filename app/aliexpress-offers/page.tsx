@@ -2,54 +2,28 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Star, Zap, ShieldCheck, Truck, ArrowRight } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Star, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/sections/Footer';
+import { FramerCarousel } from '@/components/ui/framer-carousel';
 
 // Google Ads conversion tracking function
-function gtag_report_conversion(url: string) {
-  const callback = function () {
-    if (typeof url !== 'undefined') {
-      window.location.href = url;
-    }
+function gtag_report_conversion(url: string, value: number) {
+  const windowObj = window as unknown as {
+    gtag?: (command: string, event: string, config: Record<string, unknown>) => void
   };
-  const windowObj = window as unknown as { gtag?: (command: string, event: string, config: Record<string, unknown>) => void };
+
   if (typeof windowObj.gtag === 'function') {
     windowObj.gtag('event', 'conversion', {
       'send_to': 'AW-16957880024/p1LHCNf3_rMaENjtkpY_',
-      'event_callback': callback
+      value,
+      currency: 'USD'
     });
-  } else {
-    callback();
   }
+  window.open(url, "_blank");
   return false;
 }
-
-// Christmas elements configuration
-const christmasElements = ['🎁', '⭐', '🎄', '🔔', '🎅', '⛄', '🦌', '🍬', '🧦', '🎀'];
-
-interface ChristmasItem {
-  id: number;
-  left: number;
-  animationDuration: number;
-  animationDelay: number;
-  fontSize: number;
-  opacity: number;
-  element: string;
-  rotation: number;
-}
-
-const generateChristmasElements = (count: number) => {
-  return Array.from({ length: count }, (_, i) => ({
-    id: i,
-    left: Math.random() * 100,
-    animationDuration: 8 + Math.random() * 15,
-    animationDelay: Math.random() * 8,
-    fontSize: 12 + Math.random() * 24,
-    opacity: 0.2 + Math.random() * 0.6,
-    element: christmasElements[Math.floor(Math.random() * christmasElements.length)],
-    rotation: Math.random() * 360,
-  }));
-};
 
 const deals = [
   {
@@ -198,212 +172,182 @@ const deals = [
   },
 ];
 
-const trustFeatures = [
-  { icon: ShieldCheck, text: 'Secure Checkout on AliExpress' },
-  { icon: Truck, text: 'Buyer Protection & Easy Refunds' },
-  { icon: Zap, text: 'Prices Valid While Stocks Last' },
-];
-
 export default function AliExpressOffers() {
-  const [christmasItems, setChristmasItems] = useState<ChristmasItem[]>([]);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-    setChristmasItems(generateChristmasElements(40));
-  }, []);
+  const [activeFilter, setActiveFilter] = useState('all');
+  
+  // Random stock numbers for urgency (between 3-15)
+  const getStockCount = (id: number) => {
+    const seed = id % 13;
+    return seed < 5 ? seed + 3 : seed + 2;
+  };
 
   return (
-    <main className="relative min-h-screen bg-gradient-to-b from-red-50 via-green-50 to-blue-50 overflow-hidden">
-      {/* Christmas Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%), 
-                           radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.2) 0%, transparent 50%)`,
-        }} />
-      </div>
-
-      {/* Festive Background Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Candy Canes */}
-        <div className="absolute top-10 left-10 text-6xl opacity-20 rotate-12">🎅</div>
-        <div className="absolute top-40 right-20 text-5xl opacity-20 -rotate-12">🎄</div>
-        <div className="absolute bottom-40 left-20 text-7xl opacity-15">🎁</div>
-        <div className="absolute bottom-20 right-40 text-6xl opacity-20 rotate-45">⭐</div>
-        <div className="absolute top-1/2 left-5 text-4xl opacity-15">🍬</div>
-        <div className="absolute top-1/3 right-10 text-5xl opacity-20">⛄</div>
-        <div className="absolute bottom-1/3 left-1/4 text-4xl opacity-15 rotate-45">🔔</div>
-        <div className="absolute top-2/3 right-1/4 text-5xl opacity-20 -rotate-12">🥶</div>
-      </div>
-
-      {/* Enhanced Christmas Elements Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-50 opacity-70">
-        {isClient && christmasItems.map((item) => (
-          <motion.div
-            key={item.id}
-            className="absolute"
-            initial={{ y: -50, x: `${item.left}vw`, opacity: item.opacity, rotate: item.rotation }}
-            animate={{
-              y: '100vh',
-              x: [`${item.left}vw`, `${item.left + 8}vw`, `${item.left}vw`],
-              rotate: [item.rotation, item.rotation + 360],
-            }}
-            transition={{
-              duration: item.animationDuration,
-              delay: item.animationDelay,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
-            style={{ 
-              fontSize: item.fontSize,
-              willChange: 'transform'
-            }}
-          >
-            {item.element}
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Content Wrapper with frosted effect */}
-      <div className="relative z-10">
-      {/* Header */}
-      <motion.header
-        className="pt-16 pb-8 sm:pt-24 sm:pb-12 px-4 sm:px-6 text-center"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-      >
-        <div className="max-w-3xl mx-auto">
-          <div className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 bg-red-500/10 backdrop-blur-sm rounded-full text-xs sm:text-sm font-medium text-red-700 -mb-4 sm:mb-4 border border-red-300">
-           Christmas Special Offers
+    <>
+      <Header />
+      <main className="min-h-screen bg-white mt-12">
+     
+        {/* Mobile Carousel Section - Only visible on mobile */}
+        <section className="md:hidden px-3 pt-4 pb-1">
+          <style>{`
+            .filter-scroll {
+              scrollbar-width: none;
+            }
+            .filter-scroll::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
+          <div className="mb-4">
+            <FramerCarousel />
           </div>
-
-         
-        </div>
-      </motion.header>
-
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        {/* Christmas Promo Banner */}
-        <motion.div
-          className="mb-8 sm:mb-12 relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-red-50 via-white to-green-50 backdrop-blur-xl border-2 border-dashed border-red-300 p-4 sm:p-8 text-center shadow-2xl"
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, delay: 0.1, ease: [0.4, 0, 0.2, 1] }}
-        >
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_20%_50%,#ff0000,transparent_50%),radial-gradient(circle_at_80%_50%,#00ff00,transparent_50%)]" />
           
-          <div className="relative z-10">
-           
-            <h2 className="text-lg sm:text-2xl font-bold text-red-700 mb-1 sm:mb-2">🎄 Holiday AliExpress Deals 🎄</h2>
-            <p className="text-base sm:text-lg text-green-700 mb-1">
-              New Users: Enjoy <span className="font-bold text-red-600">Free Delivery</span> 🎅
-            </p>
-            <p className="text-xs sm:text-sm text-gray-700">
-              Limited Holiday Coupons • Perfect Gift Prices • Hurry Before Santa&apos;s Gone!
-            </p>
-          </div>
-        </motion.div>
+          {/* Filter Buttons */}
+          <div className="filter-scroll flex gap-1.5 overflow-x-auto pb-1 px-3">
+            {[
+              { id: 'all', label: "Today's Deals" },
+              { id: '80', label: 'Up to 80% off' },
+              { id: 'freeReturn', label: 'Free Return' },
+            ].map((filter) => (
+              <button
+                key={filter.id}
+                onClick={() => setActiveFilter(filter.id)}
+                className={`px-2.5 py-1 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
+                  activeFilter === filter.id
+                    ? 'bg-violet-500 text-white shadow-md'
+                    : 'bg-gray-50 text-gray-600 hover:bg-gray-100 shadow-sm'
+                }`}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>  
+        </section>
 
-        {/* Deals Grid */}
-        <div className="grid gap-4 sm:gap-6 mb-12 sm:mb-16">
-          {deals.map((deal, index) => {
-            return (
+        {/* Compact Page Header */}
+        {/* <section className="pt-4 md:pt-8 pb-6 px-4 sm:px-6 bg-gradient-to-b from-violet-50/30 to-white">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
+              <a href="/" className="hover:text-violet-600 transition-colors">Home</a>
+              <span>/</span>
+              <span className="text-gray-900 font-medium">Today&apos;s Deals</span>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+              Exclusive Limited-Time Offers
+            </h1>
+            <p className="text-gray-600">Save up to 77% • Verified sellers • Buyer protection included</p>
+          </div>
+        </section> */}
+
+        {/* Deals Section */}
+        <section className="py-2 px-3 sm:px-6">
+          <div className="max-w-6xl mx-auto">
+
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-3 md:gap-6">{deals.map((deal, index) => {
+              const stockLeft = getStockCount(deal.id);
+              const isLowStock = stockLeft <= 5;
+              
+              return (
               <motion.div
                 key={deal.id}
-                className="group relative bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl border-2 border-red-200 overflow-hidden hover:border-green-300 transition-all duration-200 hover:shadow-2xl shadow-lg"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  duration: 0.3,
-                  delay: index * 0.05,
-                  ease: [0.4, 0, 0.2, 1]
-                }}
-                style={{ willChange: 'transform, opacity' }}
+                className="group bg-white rounded-xl md:rounded-2xl border md:border-2 border-gray-200 overflow-hidden hover:border-violet-300 hover:shadow-2xl transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.03 }}
+                viewport={{ once: true }}
               >
-                {/* Christmas decoration corners - hidden on mobile */}
-                <div className="hidden sm:block absolute top-0 left-0 text-2xl z-10">🎄</div>
-                <div className="hidden sm:block absolute top-0 right-0 text-2xl z-10">🎄</div>
-                
-                <div className="p-5 sm:p-6">
-                  <div className="flex flex-col md:flex-row gap-5 sm:gap-6">
-                    {/* Left - Product Image with discount badge */}
+                <div className="p-3 md:p-5 lg:p-6">
+                  <div className="flex flex-col md:flex-row gap-3 md:gap-5 lg:gap-6">
+                    {/* Product Image */}
                     <div className="flex-shrink-0 relative">
-                      <div className="w-full md:w-44 lg:w-52 aspect-square bg-gray-50 rounded-xl overflow-hidden border border-gray-200 group-hover:border-red-200 transition-all duration-300">
+                      <div className="w-full md:w-48 lg:w-56 aspect-square bg-gray-50 rounded-lg md:rounded-xl overflow-hidden border border-gray-100 shadow-md">
                         <Image
                           src={deal.image}
                           alt={deal.title}
-                          width={208}
-                          height={208}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          width={224}
+                          height={224}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="160" height="160"%3E%3Crect fill="%23f3f4f6" width="160" height="160"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="14"%3EProduct%3C/text%3E%3C/svg%3E';
+                            (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="224" height="224"%3E%3Crect fill="%23f3f4f6" width="224" height="224"/%3E%3C/svg%3E';
                           }}
                         />
                       </div>
-                      {/* Discount Badge - positioned on image */}
-                      <div className="absolute -top-2 -right-2 px-3 py-1.5 bg-gradient-to-br from-red-500 to-red-600 text-white text-sm font-bold rounded-full shadow-lg border-2 border-white">
-                        -{deal.discount}%
+                      {/* Enhanced Discount Badge */}
+                      <div className="absolute -top-2 -right-2 md:-top-3 md:-right-3 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center bg-gradient-to-br from-red-500 to-red-600 text-white rounded-full shadow-2xl border-2 md:border-4 border-white transform rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-all duration-300">
+                        <div className="text-center leading-none">
+                          <div className="text-[8px] md:text-xs font-semibold">SAVE</div>
+                          <div className="text-sm md:text-lg font-black">{deal.discount}%</div>
+                        </div>
                       </div>
+                      {/* Stock Urgency Badge */}
+                      {isLowStock && (
+                        <div className="absolute -bottom-1.5 md:-bottom-2 left-1/2 -translate-x-1/2 px-2 md:px-3 py-0.5 md:py-1 bg-orange-500 text-white text-[10px] md:text-xs font-bold rounded-full shadow-lg animate-pulse whitespace-nowrap">
+                          Only {stockLeft} left!
+                        </div>
+                      )}
                     </div>
 
-                    {/* Right - Content with better hierarchy */}
+                    {/* Product Details */}
                     <div className="flex-1 flex flex-col min-w-0">
-                      {/* Top section: Title, description, rating */}
                       <div className="flex-1">
-                        <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 leading-tight group-hover:text-red-600 transition-colors">
+                        <h3 className="text-sm md:text-xl lg:text-2xl font-bold text-gray-900 mb-1 md:mb-2 leading-tight group-hover:text-violet-600 transition-colors line-clamp-2">
                           {deal.title}
                         </h3>
 
-                        <p className="text-sm sm:text-base text-gray-600 mb-3 leading-relaxed line-clamp-2">
+                        <p className="hidden md:block text-gray-600 mb-4 leading-relaxed line-clamp-2">
                           {deal.description}
                         </p>
 
-                        {/* Rating - better spacing */}
-                        <div className="flex items-center gap-2 mb-4">
+                        {/* Rating with better visual weight */}
+                        <div className="flex items-center gap-1 md:gap-3 mb-2 md:mb-5">
                           <div className="flex gap-0.5">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                className={`w-4 h-4 ${i < Math.floor(deal.rating) ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}`}
+                                className={`w-3 h-3 md:w-5 md:h-5 ${i < Math.floor(deal.rating) ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}`}
                               />
                             ))}
                           </div>
-                          <span className="text-sm font-medium text-gray-700">
+                          <span className="text-xs md:text-base font-bold text-gray-900">
                             {deal.rating}
                           </span>
-                          <span className="text-sm text-gray-400">
-                            ({deal.reviews.toLocaleString()} reviews)
+                          <span className="hidden md:inline text-sm text-gray-500 font-medium">
+                            ({deal.reviews.toLocaleString()})
                           </span>
                         </div>
                       </div>
 
-                      {/* Bottom section: Pricing & CTA - always at bottom */}
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-4 border-t border-gray-200">
-                        {/* Price section - mobile optimized */}
-                        <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-3">
-                          <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-red-600">
-                            ${deal.discountedPrice.toFixed(2)}
-                          </div>
-                          <div className="flex flex-wrap gap-2 sm:gap-2 items-center">
-                            <span className="text-sm sm:text-base text-gray-400 line-through">
+                      {/* Pricing & CTA - Enhanced */}
+                      <div className="flex flex-col gap-2 pt-2 border-t border-gray-100 md:flex-row md:items-end md:justify-between md:gap-4 md:pt-5 md:border-t-2">
+                        <div className="flex flex-col gap-1 md:gap-2">
+                          <div className="flex items-baseline gap-2 md:gap-3">
+                            <div className="text-xl md:text-4xl lg:text-5xl font-black text-violet-600">
+                              ${deal.discountedPrice.toFixed(2)}
+                            </div>
+                            <span className="text-xs md:text-lg text-gray-400 line-through font-semibold">
                               ${deal.originalPrice.toFixed(2)}
                             </span>
-                            <span className="inline-block px-2.5 py-1 bg-green-100 text-green-700 text-xs sm:text-sm font-semibold rounded-full">
-                              Save ${(deal.originalPrice - deal.discountedPrice).toFixed(2)}
+                          </div>
+                          <div className="flex flex-wrap items-center gap-1 md:gap-2">
+                            <span className="px-2 md:px-3 py-0.5 md:py-1.5 bg-green-500 text-white text-[10px] md:text-sm font-bold rounded md:rounded-lg shadow-md">
+                              SAVE ${(deal.originalPrice - deal.discountedPrice).toFixed(2)}
                             </span>
+                            {!isLowStock && (
+                              <span className="text-[10px] md:text-xs text-gray-500 font-medium">
+                                {stockLeft} left
+                              </span>
+                            )}
                           </div>
                         </div>
 
-                        {/* CTA Button - prominent */}
                         <button
                           onClick={(e) => {
                             e.preventDefault();
-                            gtag_report_conversion(deal.promotionUrl);
+                            gtag_report_conversion(deal.promotionUrl, deal.discountedPrice);
                           }}
-                          className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold text-base rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 group/btn cursor-pointer"
+                          className="inline-flex items-center justify-center gap-1 md:gap-2 px-4 md:px-8 py-2 md:py-4 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold text-xs md:text-base rounded-xl md:rounded-xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-200 group/btn"
                         >
-                          Get Deal Now
-                          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                          <span className="md:hidden">Claim Deal</span>
+                          <span className="hidden md:inline">Claim Deal Now</span>
+                          <ArrowRight className="w-3 h-3 md:w-5 md:h-5 group-hover/btn:translate-x-2 transition-transform" />
                         </button>
                       </div>
                     </div>
@@ -411,109 +355,71 @@ export default function AliExpressOffers() {
                 </div>
               </motion.div>
             );
-          })}
-        </div>
-
-        {/* Trust Section */}
-        <motion.div
-          className="mb-12 sm:mb-16"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.4 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-900">
-            Why Shop Christmas Deals With Us? 🎄
-          </h2>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {trustFeatures.map((feature, index) => (
-              <motion.div
-                key={index}
-                className="flex flex-col items-center text-center p-4 sm:p-6 bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl border-2 border-green-200 hover:border-red-300 transition-all duration-200 hover:shadow-xl"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <feature.icon className="w-8 h-8 sm:w-10 sm:h-10 mb-3 text-red-600" />
-                <h3 className="font-bold text-base sm:text-lg text-gray-900 mb-2">{feature.text}</h3>
-              </motion.div>
-            ))}
+            })}</div>
           </div>
-        </motion.div>
+        </section>
 
-        {/* FAQ-Style Section */}
-        <motion.section
-          className="mb-16"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-3xl font-semibold text-gray-900 mb-8">🎅 Holiday Shopping Questions</h2>
+        {/* FAQ Section */}
+        <section className="py-16 px-4 sm:px-6 bg-gray-50">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 mb-10 text-center">
+              Common Questions
+            </h2>
 
-          <div className="space-y-4">
-            {[
-              {
-                q: '🎁 Are these Christmas deals legitimate?',
-                a: 'Yes! All deals are verified AliExpress holiday offers with full buyer protection and money-back guarantees.',
-              },
-              {
-                q: '⏰ How long do these Christmas deals last?',
-                a: 'Holiday deals are valid while stocks last. Prices may change after Christmas. Order now for best savings!',
-              },
-              {
-                q: '🎅 Will my gifts arrive before Christmas?',
-                a: 'Yes! Choose express shipping for faster delivery to the USA with tracking information.',
-              },
-              {
-                q: '🎄 What if I\'m not satisfied with my purchase?',
-                a: 'AliExpress offers a 60-day buyer protection guarantee with free returns for most holiday items.',
-              },
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="bg-white/95 backdrop-blur-sm rounded-xl border-2 border-red-100 p-6 hover:shadow-xl transition-shadow hover:border-green-200"
-              >
-                <h3 className="font-semibold text-red-700 mb-2">{item.q}</h3>
-                <p className="text-gray-700">{item.a}</p>
-              </div>
-            ))}
+            <div className="space-y-4">
+              {[
+                {
+                  q: 'Are these deals legitimate?',
+                  a: 'Yes! All deals are verified offers from AliExpress with full buyer protection. Every product has real customer reviews and ratings.',
+                },
+                {
+                  q: 'How long are prices valid?',
+                  a: 'Deals are time-sensitive and valid while stocks last. We recommend acting quickly on items you want.',
+                },
+                {
+                  q: 'What about shipping to the USA?',
+                  a: 'Most products offer free or low-cost shipping. New users often get free delivery. Typical delivery is 10-20 days with tracking.',
+                },
+                {
+                  q: 'What if I\'m not satisfied?',
+                  a: 'AliExpress provides 60-day buyer protection. Full refund if items don\'t match descriptions or arrive damaged.',
+                },
+              ].map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  viewport={{ once: true }}
+                >
+                  <h3 className="font-bold text-gray-900 mb-2 text-lg">{item.q}</h3>
+                  <p className="text-gray-600 leading-relaxed">{item.a}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </motion.section>
+        </section>
 
-        {/* Final Christmas CTA */}
-        <motion.div
-          className="mb-24 text-center py-12 px-6 rounded-3xl bg-gradient-to-br from-red-100 via-green-100 to-red-100 border-4 border-red-200 shadow-2xl"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="text-5xl mb-4">🎅🎄🎁</div>
-          <h2 className="text-3xl font-semibold text-gray-900 mb-4">
-            Ready for Christmas Shopping?
-          </h2>
-          <p className="text-gray-700 mb-6 max-w-md mx-auto">
-            Browse all holiday deals above and start gift shopping. New users get extra Christmas discounts!
-          </p>
-          <a
-            href="https://www.aliexpress.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-red-600 font-semibold rounded-xl hover:shadow-2xl hover:scale-105 transition-all duration-200 ease-out cursor-pointer relative overflow-hidden"
-            style={{
-              border: '4px solid',
-              borderImage: 'repeating-linear-gradient(45deg, #dc2626, #dc2626 10px, #ffffff 10px, #ffffff 20px) 1'
-            }}
-          >
-            🎁 Shop All Christmas Deals on AliExpress
-            <ArrowRight className="w-4 h-4" />
-          </a>
-        </motion.div>
-      </div>
-      </div>
-    </main>
+        {/* Final CTA */}
+        <section className="py-16 px-4 sm:px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Don&apos;t Miss Out on These Deals
+              </h2>
+              <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                Limited stock available. Claim your deal before prices go back up.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }
